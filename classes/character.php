@@ -163,13 +163,9 @@ abstract class character
                 $parry = true;
             }
             // dodge ?
-
-            // Ici je tente de rajouter à la défense le pourcentage obtenu via la méthode dodge mais pour le moment ça ne fonctionne pas, je suis à peu près certain que ma méthode est bonne reste à trouver pourquoi ça ne fonctionne pas ici.
             if ($target->getWeapon()->type == $target->getWeapon()::CAT_RANGED) {
                 $dodge = true;
-                $dodgeValue=$this->dodge();
-                $def= $def + ($def*$dodgeValue);
-                echo $this->getName(). 'a augmenté ses chances d\'esquive de ' . ($dodgeValue*100).'%';
+                $this->dodge();
             }
             // defensive magic bonus
             if ($target->getMagic()->category == capacity::CAT_DEFENSIVE) {
@@ -208,7 +204,7 @@ abstract class character
 
     public function parry()
     {
-        $
+        
 
 
 
@@ -216,20 +212,25 @@ abstract class character
 
     // l'esquive accorde 10% de chance d'éviter une attaque par tranche de 10 points en valeur de défense.
 
-    public function dodge(): float
+    public function dodge() : int
     {
+        $randomNumber = rand(0, 10);
         $total = $this->getDefense();
-
-        // Je teste pour éviter la division par zéro
         if ($total == 0) {
             return 0;
         } else {
-            //floor pour arrondir à l’inférieur et obtenir l’augmentation par tranche de 10 point uniquement !
+            //floor pour arrondir à l’inférieur et obtenir l’augmentation par tranche de 10 point uniquement!
             $defense = floor(($this->getDefense() / 10));
-            $defense = $defense * 10;
-            $floorDefense = (($defense / $total));
-            // round pour arrondir à 3 chiffre après la virgule
-            return round(($floorDefense), 3);
+            if ($randomNumber <= $defense) {
+                return $this->doDodge();
+            }else {
+                return $this->name.' n\'a pu esquiver l\'attaque';
+            }
+
         }
+    }
+    public function doDodge()
+    {
+        return $this->name.' a esquivé l\'attaque';
     }
 }
