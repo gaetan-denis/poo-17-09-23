@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Objects</title>
+</head>
+<body>
+<p>
+    PHP inclus un modèle objet complet. Certaines de ses fonctionnalités sont : la visibilité, les classes et méthodes abstraites et finales mais aussi les méthodes magiques, les interfaces, et le clonage.
+
+    PHP gère les objets de la même façon, qu'ils soient des références ou des gestionnaires, ce qui signifie que chaque variable contient une <b>référence</b> vers l'objet plutôt qu'une copie de l'objet complet.
+</p>
+
+<h2>Syntaxe de base</h2>
+<p>Une définition de classe basique commence par le mot-clé <b>class</b>, suivi du nom de la classe. Suit une paire d'accolades contenant la définition des propriétés et des méthodes appartenant à la classe.</p>
+<p>Une classe peut contenir ses propres <b>constantes</b>, variables (appelées "<b>propriétés</b>" ou "attributs"), et fonctions (appelées "<b>méthodes</b>").</p>
+<p>La pseudo-variable <b>$this</b> est disponible lorsqu'une méthode est appelée depuis un contexte objet. $this est la valeur de l'objet appelant.</p>
+<a href="https://www.php.net/manual/fr/language.oop5.basic.php">Syntaxe de base sur php.net</a>
+
+<h2>Instanciation</h2>
+<p>
+    Pour créer une instance d'une classe, le mot-clé <b>new</b> doit être utilisé.
+    Un objet sera alors systématiquement créé, à moins qu'il ait un <b>constructeur</b> défini qui lance une exception en cas d'erreur.
+    Les classes devraient être définies avant l'instanciation (dans certains cas, c'est impératif).
+</p>
+
+<h2>Constructeur</h2>
+<p>
+    Les classes qui possèdent une méthode constructeur appellent cette méthode à chaque création d'une nouvelle instance de l'objet, ce qui est intéressant pour toutes les initialisations dont l'objet a besoin avant d'être utilisé.
+</p>
+<p>
+    Les constructeurs sont des méthodes ordinaires qui sont appelées lors de l'instanciation de leur objet correspondant.
+    Par conséquent, ils peuvent définir un nombre arbitraire d'arguments, qui peuvent être requis, avoir un type, et peuvent avoir une valeur par défaut.
+    Les arguments d'un constructeur sont appelés en plaçant les arguments dans des parenthèses après le nom de la classe.
+</p>
+<h3>Avancé</h3>
+<p>Note: Les constructeurs parents ne sont pas appelés implicitement si la classe enfant définit un constructeur.
+    Si vous voulez utiliser un constructeur parent, il sera nécessaire de faire appel à parent::__construct() depuis le constructeur enfant.
+    Si l'enfant ne définit pas un constructeur alors, il peut être hérité de la classe parente, exactement de la même façon qu'une méthode le serait (si elle n'a pas été déclarée comme privée).
+</p>
+<p>À la différence des autres méthodes, __construct() est exclus des règles de compatibilités des signatures usuel quand elle est étendue (le nombre et le type des paramètres peut différer entre l'enfant et le parent).</p>
+<a href="https://www.php.net/manual/fr/language.oop5.decon.php">Constructeur et Destructeur sur php.net</a>
+
+<h2>Visibilité</h2>
+<p>La visibilité d'une propriété, d'une méthode ou (à partir de PHP 7.1.0) une constante peut être définie en préfixant sa déclaration avec un mot-clé : <b>public</b>, <b>protected</b>, ou <b>private</b>.
+    Les éléments déclarés comme publics sont accessibles partout. L'accès aux éléments protégés est limité à la classe elle-même, ainsi qu'aux classes qui en héritent et parente.
+    L'accès aux éléments privés est uniquement réservé à la classe qui les a définis.
+</p>
+<p>Note: Les classes, méthodes, propriétés ou constantes déclarées sans explicitement utiliser un mot-clef de visibilité seront automatiquement définies comme publiques.</p>
+<a href="https://www.php.net/manual/fr/language.oop5.visibility.php">Visibilité sur php.net</a>
+
+<h2>Propriétés et méthodes</h2>
+<p>
+    Les propriétés et méthodes de classe vivent dans des "espaces de noms" séparé, donc il est possible d'avoir une propriété et une méthode avec le même nom.
+    Accéder à une propriété ou à une méthode se fait en utilisant la "flèche" (->), à savoir la concaténation des caractères tiret (-) et "plus grand que" (>),
+    à la suite du nom de la classe et avant le nom de la propriété ou de la méthode.
+    Faire référence à une propriété ou à une méthode diffère du contexte : un accès variable ou un appel de fonction.
+    Au niveau de la syntaxe cela se traduira par l'ajout classique des parenthèses lors de l'appel de fonction.
+</p>
+
+<h2>Héritage</h2>
+<p>
+    Une classe peut hériter des constantes, méthodes et des propriétés d'une autre classe en utilisant le mot-clé extends dans la déclaration.
+    Il n'est pas possible d'étendre plusieurs classes : une classe peut uniquement hériter d'une seule classe de base.
+</p>
+<p>
+    Les constantes, méthodes et propriétés héritées peuvent être redéfinies en les redéclarant avec le même nom que dans la classe parente.
+    Cependant, si la classe parente a défini une méthode ou constante comme <b>final</b>, alors celles-ci ne peuvent pas être redéfinies.
+    Il est possible d'accéder aux méthodes ou propriétés statiques redéfinies en y faisant référence avec l'opérateur <b>parent::</b>.
+</p>
+
+<h2>Final</h2>
+<p>
+    Le mot-clé final empêche les classes enfants de redéfinir une méthode ou constante en préfixant la définition avec <b>final</b>.
+    Si la classe elle-même est définie comme finale, elle ne pourra pas être étendue.
+</p>
+<p>
+    Les propriétés ne peuvent être déclarées comme finales : seules les méthodes, classes, constantes (à partir de PHP 8.1.0) peuvent être défini comme finale.
+    À partir de PHP 8.0.0, les méthodes privées ne peuvent pas être déclaré finale à l'exception du constructeur.
+</p>
+<a href="https://www.php.net/manual/fr/language.oop5.final.php">Le mot-clé final sur php.net</a>
+
+
+<h2>Opérateur de résolution de portée</h2>
+<p>
+    Le symbole "double deux-points" (::)
+    <a href="https://www.php.net/manual/fr/language.oop5.paamayim-nekudotayim.php">Opérateur de résolution de portée sur php.net</a>
+</p>
+
+</body>
+</html>
