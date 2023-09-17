@@ -161,6 +161,7 @@ abstract class character
             // parry ?
             if ($this->getWeapon()->type == $this->getWeapon()::CAT_MELEE && $target->getWeapon()->category == capacity::CAT_DEFENSIVE) {
                 $parry = true;
+                $this->parry()
             }
             // dodge ?
             if ($target->getWeapon()->type == $target->getWeapon()::CAT_RANGED) {
@@ -204,12 +205,25 @@ abstract class character
 
     public function parry()
     {
-        
-
-
-
+        $randomNumber = rand(0, 10);
+        $total = $this->getAttack();
+        if ($total == 0) {
+            return 0;
+        } else {
+            //floor pour arrondir à l’inférieur et obtenir l’augmentation par tranche de 10 point uniquement!
+            $defense = floor(($total / 10));
+            if ($randomNumber <= $defense) {
+                return $this->doParry();
+            } else {
+                return $this->name . ' n\'a pu paré l\'attaque';
+            }
+        }
     }
+    public function doParry()
 
+    {
+        return $this->name.' a paré l\'attaque';
+    }
     // l'esquive accorde 10% de chance d'éviter une attaque par tranche de 10 points en valeur de défense.
 
     public function dodge() : int
@@ -220,13 +234,12 @@ abstract class character
             return 0;
         } else {
             //floor pour arrondir à l’inférieur et obtenir l’augmentation par tranche de 10 point uniquement!
-            $defense = floor(($this->getDefense() / 10));
+            $defense = floor(($total / 10));
             if ($randomNumber <= $defense) {
                 return $this->doDodge();
             }else {
                 return $this->name.' n\'a pu esquiver l\'attaque';
             }
-
         }
     }
     public function doDodge()
